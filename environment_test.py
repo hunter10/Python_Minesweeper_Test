@@ -168,47 +168,53 @@ class Env(tk.Tk): #tkinter module 상속받기
         y = int(c_coords[1])
         if(map[x][y] == -1):
             return True
-        else
+        else:
             return False
 
     # 현재 세팅되어 있는 액션 방향의 다음 셀의 좌표을 얻어옴
     def GetNextCell(self):
         if(self.currAct == ActionType.UP):
-            tempCellPos = [currCellPos[0], currCellPos[1] - 1)
+            tempCellPos = [self.currCellPos[0], self.currCellPos[1] - 1]
         elif(self.currAct == ActionType.DOWN):
-            tempCellPos = [currCellPos[0], currCellPos[1] + 1)
+            tempCellPos = [self.currCellPos[0], self.currCellPos[1] + 1]
         elif(self.currAct == ActionType.LEFT):
-            tempCellPos = [currCellPos[0] - 1, currCellPos[1])
+            tempCellPos = [self.currCellPos[0] - 1, self.currCellPos[1]]
         elif(self.currAct == ActionType.RIGHT):
-            tempCellPos = [currCellPos[0] + 1, currCellPos[1])
+            tempCellPos = [self.currCellPos[0] + 1, self.currCellPos[1]]
 
         return tempCellPos
 
     # 맵 가장자리 바깥체크 (입력한 좌표가 바깥으로 나갔다면 True)
     def CheckMapOutBound(self, c_coords):
-        if(tempCellPos[0] < 0 or tempCellPos[0] > MapWidth or
-           tempCellPos[1] < 0 or tempCellPos[1] > MapHeight)
+        if(c_coords[0] < 0 or c_coords[0] > MapWidth or
+           c_coords[1] < 0 or c_coords[1] > MapHeight):
+           print("CheckMapOutBound... True")
            return True
         else:
-           return False
+            print("CheckMapOutBound... False")
+            return False
     
     # Action값이 Break, Flag 라면 현재바라보는 방향의 다음 셀을 좌표로 받음
     def GetActionResult(self, act):
         print("GetActionResult : ", act)
-
+        
         if(act == ActionType.BREAK or act == ActionType.FLAG): # 맵의 가장자리 체크
-            IsMapOut = self.CheckMapOutBound(GetNextCell())
-            if(IsMapOut == true):
+            IsMapOut = self.CheckMapOutBound(self.GetNextCell())
+            if(IsMapOut == True):
                 return;
-
+        
         if(act == ActionType.BREAK):
             self.IsBombTouch = CheckBomb(GetNextCell()) # 폭탄 체크
             if(self.IsBombTouch == True): # 폭탄 건드리면 게임오버
                 return; 
+            else:
+                # 맵 열기 
+                return;
+        
+        
 
-            # 맵 열기 
-
-        print("액션값에 따라 숫자리스트, 다음셀의 좌표, 깃발표시등을 리턴")
+        #print("Action 액션값에 따라 숫자리스트, 다음셀의 좌표, 깃발표시등을 리턴")
+        print("Action number list, next cell coords, flag")
 
     #def GetRewardState(act):
     #    if(act == ActionType.BREAK)
@@ -222,9 +228,6 @@ env = Env()
 print("PixelToCell : ", env.PixelToCell([51, 25]))
 print("CellToPixel : ", env.CellToPixel([1, 0]))
 
-act = ActionType.LEFT
-print(act)
-print(env.currAct)
 # 폭탄 세팅
 
 # 빈공간 클릭 테스트
@@ -232,6 +235,8 @@ print(env.currAct)
 # 깃발 테스트
 
 # 액션 함수 테스트
-env.GetActionResult(ActionType.UP)
+#env.GetActionResult(ActionType.UP)
+env.GetActionResult(ActionType.LEFT)
+#env.GetActionResult(ActionType.BREAK)
 
 env.mainloop()
