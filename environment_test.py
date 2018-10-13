@@ -198,10 +198,12 @@ class Env(tk.Tk): #tkinter module 상속받기
     def GetActionResult(self, act):
         print("GetActionResult : ", act)
         
-        if(act == ActionType.BREAK or act == ActionType.FLAG): # 맵의 가장자리 체크
-            IsMapOut = self.CheckMapOutBound(self.GetNextCell())
-            if(IsMapOut == True):
-                return;
+        # 이 부분은 처리 애매함... 
+        # 가장자리라면 에이전트에 값을 주지 말아야할지등 처리방법 정해야 함.
+        #if(act == ActionType.BREAK or act == ActionType.FLAG): # 맵의 가장자리 체크
+        #    IsMapOut = self.CheckMapOutBound(self.GetNextCell())
+        #    if(IsMapOut == True):
+        #        return
         
         if(act == ActionType.BREAK):
             self.IsBombTouch = CheckBomb(GetNextCell()) # 폭탄 체크
@@ -209,9 +211,14 @@ class Env(tk.Tk): #tkinter module 상속받기
                 return; 
             else:
                 # 맵 열기 
-                return;
+                return
         
-        
+        elif(act == ActionType.FLAG):
+            # 맵에 깃발 꽂기
+
+        else: # 방향값을 받으면 다음 셀의 픽셀값을 리턴
+            tempCellCoord = GetNextCell()
+            tempPixel = CellToPixel(tempCellCoord)
 
         #print("Action 액션값에 따라 숫자리스트, 다음셀의 좌표, 깃발표시등을 리턴")
         print("Action number list, next cell coords, flag")
