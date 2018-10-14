@@ -208,17 +208,18 @@ class Env(tk.Tk): #tkinter module 상속받기
         if(act == ActionType.BREAK):
             self.IsBombTouch = CheckBomb(GetNextCell()) # 폭탄 체크
             if(self.IsBombTouch == True): # 폭탄 건드리면 게임오버
-                return; 
+                return
             else:
                 # 맵 열기 
                 return
         
         elif(act == ActionType.FLAG):
             # 맵에 깃발 꽂기
+            return
 
         else: # 방향값을 받으면 다음 셀의 픽셀값을 리턴
-            tempCellCoord = GetNextCell()
-            tempPixel = CellToPixel(tempCellCoord)
+            tempCellCoord = self.GetNextCell()
+            tempPixel = self.CellToPixel(tempCellCoord)
 
         #print("Action 액션값에 따라 숫자리스트, 다음셀의 좌표, 깃발표시등을 리턴")
         print("Action number list, next cell coords, flag")
