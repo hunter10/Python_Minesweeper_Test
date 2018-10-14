@@ -33,12 +33,12 @@ def DFS(indx, indy):
     if Button_X[indy][indx] == 1:
        return 0
 
-    if visit[indy][indx] == 0: # 한번도 방문 안한 위치라면 ... buttonchk 값이 == 0 이라면
-        visit[indy][indx] = 1 # 방문변수 체크후 ... buttonchk 값을 1 로 변경
+    if visit[indy][indx] == 0: # 한번도 방문 안한 위치라면
+        visit[indy][indx] = 1 # 방문변수 체크후
 
         if(not map[indy][indx] == -1): # 맵 데이터가 폭탄이 아니라면
             Button_map[indy][indx].Show(indx,indy) # 버튼에 맵 데이터 보여주기
-            buttonchk[indy][indx] = 1 # 버튼이 눌렸다고 체크
+            #buttonchk[indy][indx] = 1 # 버튼이 눌렸다고 체크
         
         if(map[indy][indx] > 0): # 맵 데이터가 빈칸이 아니라면 DSF종료
             return 0
@@ -52,6 +52,7 @@ def DFS(indx, indy):
             #buttonchk[indy][indx] = 1 # 버튼이 눌렸다고 체크
             return 0
         '''
+
         for i in range(4): # 맵데이터가 비어있다면 
             DFS(indx+dir[i][0], indy+dir[i][1]) # 현재 위치 기준 사방 각 블록 체크
     else:
@@ -67,8 +68,7 @@ class Button_:
         self.Num_Button = ttk.Button(root, width=3)
         self.Num_Button.grid(row=y, column=x, ipady=4)
         self.Num_Button.bind('<Button-1>', self.Left)
-        self.Num_Button.bind('<Button-2>', self.Right) # 맥은 Button-2, PC Button-3
-
+        self.Num_Button.bind('<Button-3>', self.Right) # 맥은 Button-2, PC Button-3
 
     def Show(self, x1, y1):
         self.Num_Button.configure(text = str(map[y1][x1]))
@@ -121,12 +121,11 @@ class Button_:
                 for j in range(N):
                     if(buttonchk[i][j] == 1 and not map[i][j] == -1):
                         cnt += 1
+
             if cnt == N * N - bomb:
                 Game_clear()
 
-
 Button_map = [[Button_(0, 0) for col in range(N)] for row in range(N)]
-
 
 def clear():
     for i in range(N):
